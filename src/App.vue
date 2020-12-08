@@ -1,13 +1,26 @@
 <template>
   <div id="app">
-
+    @{{ user.username }}
   </div>
 </template>
 
 <script>
 
 export default {
-  name: 'App'
+  name: 'App',
+  data() {
+    return {
+      followers: 0,
+      user: {
+        id: 1,
+        username: '_FakeUser',
+        firstName: 'Fake',
+        lastName: 'User',
+        email: 'fake.user@host.com',
+        isAdmin: true
+      }
+    }
+  }
 }
 </script>
 
