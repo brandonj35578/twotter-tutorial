@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    @{{ user.username }}
+    @{{ user.username }} - {{fullName}}
   </div>
 </template>
 
@@ -19,6 +19,11 @@ export default {
         email: 'fake.user@host.com',
         isAdmin: true
       }
+    }
+  },
+  computed: {
+    fullName() {
+      return `${this.user.firstName} ${this.user.lastName}`;
     }
   }
 }
