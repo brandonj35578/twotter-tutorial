@@ -65,7 +65,7 @@ export default {
   display: grid;
   grid-template-columns: 1fr 3fr;
   width: 100%;
-  padding: 50px 3px;
+  padding: 50px 5%;
 }
 
 .user-profile__user-panel {
