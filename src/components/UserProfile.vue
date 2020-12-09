@@ -9,6 +9,11 @@
         <strong>Followers: </strong> {{ followers }}
       </div>
     </div>
+    <div class="user-profile__twoots-wrapper">
+      <div class="user-profile__twoots-twoot" v-for="twoot in user.twoots" :key="twoot.content">
+        {{ twoot.content }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -24,7 +29,11 @@ export default {
         firstName: 'Fake',
         lastName: 'User',
         email: 'fake.user@host.com',
-        isAdmin: true
+        isAdmin: true,
+        twoots: [
+          {id: 1, content: 'Twotter is amazing!'},
+          {id: 2, content: 'The really awesome content is great!'}
+        ]
       }
     }
   },
@@ -56,7 +65,7 @@ export default {
   display: grid;
   grid-template-columns: 1fr 3fr;
   width: 100%;
-  padding: 50px 5%;
+  padding: 50px 3px;
 }
 
 .user-profile__user-panel {
