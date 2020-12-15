@@ -10,13 +10,20 @@
       </div>
     </div>
     <div class="user-profile__twoots-wrapper">
-      <TwootItem v-for="twoot in user.twoots" :key="twoot.id" :username="user.username" :twoot="twoot" />
+      <TwootItem
+          v-for="twoot in user.twoots"
+          :key="twoot.id"
+          :username="user.username"
+          :twoot="twoot"
+          @favorite="toggleFavorite"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import TwootItem from "@/components/TwootItem";
+
 export default {
   name: "UserProfile",
   components: {TwootItem},
@@ -52,6 +59,9 @@ export default {
   methods: {
     followUser() {
       this.followers++;
+    },
+    toggleFavorite(id) {
+      console.log(`Favorited twoot #${id}`);
     }
   },
   mounted() {
