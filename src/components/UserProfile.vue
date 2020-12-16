@@ -91,6 +91,7 @@ export default {
           id: this.user.twoots.length + 1,
           content: this.newTwootContent
         });
+        this.newTwootContent = '';
       }
     }
   },
