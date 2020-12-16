@@ -10,7 +10,7 @@
       </div>
       <form class="user-profile__create-twoot"
             @submit.prevent="createNewTwoot"
-            :class="{'exceeded': newTwootCharacterCount > 180}">
+            :class="{'exceeded': newTwootCharacterCountExceeded}">
         <label for="newTwoot"><strong>New Twoot</strong> ({{ newTwootCharacterCount }}/180)</label>
         <textarea id="newTwoot" rows="4" v-model="newTwootContent"/>
 
@@ -78,6 +78,9 @@ export default {
   computed: {
     newTwootCharacterCount() {
       return this.newTwootContent.length
+    },
+    newTwootCharacterCountExceeded() {
+      return this.newTwootCharacterCount > 180
     }
   },
   methods: {
@@ -88,7 +91,7 @@ export default {
       console.log(`Favorited twoot #${id}`);
     },
     createNewTwoot() {
-      if (this.newTwootContent && this.selectedTwootType !== 'draft') {
+      if (this.newTwootContent && this.selectedTwootType !== 'draft' && !this.newTwootCharacterCountExceeded) {
         this.user.twoots.unshift({
           id: this.user.twoots.length + 1,
           content: this.newTwootContent
