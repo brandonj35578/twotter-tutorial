@@ -1,39 +1,23 @@
 <template>
   <div class="user-profile">
-    <div class="user-profile__user-panel">
-      <h1 class="user-profile__user-username">@{{ user.username }}</h1>
-      <div class="user-profile__admin-badge" v-if="user.isAdmin">
-        Admin
-      </div>
-      <div class="user-profile__follower-count">
-        <strong>Followers: </strong> {{ followers }}
-      </div>
-      <form class="user-profile__create-twoot"
-            @submit.prevent="createNewTwoot"
-            :class="{'exceeded': newTwootCharacterCountExceeded}">
-        <label for="newTwoot"><strong>New Twoot</strong> ({{ newTwootCharacterCount }}/180)</label>
-        <textarea id="newTwoot" rows="4" v-model="newTwootContent"/>
-
-        <div class="user-profile__create-twoot-type">
-          <label for="newTwootType"><strong>Type: </strong></label>
-          <select id="newTwootType" v-model="selectedTwootType">
-            <option :value="option.value" v-for="(option, index) in twootTypes" :key="index">
-              {{ option.name }}
-            </option>
-          </select>
+    <div class="user-profile-sidebar">
+      <div class="user-profile-user-panel">
+        <h1 class="user-profile-user-username">@{{ user.username }}</h1>
+        <div class="user-profile-admin-badge" v-if="user.isAdmin">
+          Admin
         </div>
-        <button>
-          Twoot!
-        </button>
-      </form>
+        <div class="user-profile-follower-count">
+          <strong>Followers: </strong> {{ followers }}
+        </div>
+      </div>
+      <CreateTwootPanel @add-twoot="addTwoot"></CreateTwootPanel>
     </div>
-    <div class="user-profile__twoots-wrapper">
+    <div class="user-profile-twoots-wrapper">
       <TwootItem
           v-for="twoot in user.twoots"
           :key="twoot.id"
           :username="user.username"
           :twoot="twoot"
-          @favorite="toggleFavorite"
       />
     </div>
   </div>
@@ -41,18 +25,13 @@
 
 <script>
 import TwootItem from "@/components/TwootItem";
+import CreateTwootPanel from "@/components/CreateTwootPanel";
 
 export default {
   name: "UserProfile",
-  components: {TwootItem},
+  components: {CreateTwootPanel, TwootItem},
   data() {
     return {
-      newTwootContent: '',
-      selectedTwootType: 'instant',
-      twootTypes: [
-        {value: 'draft', name: 'Draft'},
-        {value: 'instant', name: 'Instant Twoot'}
-      ],
       followers: 0,
       user: {
         id: 1,
@@ -68,40 +47,10 @@ export default {
       }
     }
   },
-  watch: {
-    followers(newFollowerCount, oldFollowerCount) {
-      if (oldFollowerCount < newFollowerCount) {
-        console.log(`${this.user.username} has gained a follower!`);
-      }
-    }
-  },
-  computed: {
-    newTwootCharacterCount() {
-      return this.newTwootContent.length
-    },
-    newTwootCharacterCountExceeded() {
-      return this.newTwootCharacterCount > 180
-    }
-  },
   methods: {
-    followUser() {
-      this.followers++;
+    addTwoot(twoot) {
+      this.user.twoots.unshift({id: this.user.twoots.length + 1, content: twoot});
     },
-    toggleFavorite(id) {
-      console.log(`Favorited twoot #${id}`);
-    },
-    createNewTwoot() {
-      if (this.newTwootContent && this.selectedTwootType !== 'draft' && !this.newTwootCharacterCountExceeded) {
-        this.user.twoots.unshift({
-          id: this.user.twoots.length + 1,
-          content: this.newTwootContent
-        });
-        this.newTwootContent = '';
-      }
-    }
-  },
-  mounted() {
-    this.followUser();
   }
 }
 </script>
@@ -110,9 +59,10 @@ export default {
 .user-profile {
   display: grid;
   grid-template-columns: 1fr 3fr;
+  grid-gap: 50px;
   padding: 50px 5%;
 
-  .user-profile__user-panel {
+  .user-profile-user-panel {
     display: flex;
     flex-direction: column;
     margin-right: 50px;
@@ -125,7 +75,7 @@ export default {
       margin: 0;
     }
 
-    .user-profile__admin-badge {
+    .user-profile-admin-badge {
       background: cornflowerblue;
       color: white;
       border-radius: 5px;
@@ -133,26 +83,9 @@ export default {
       padding: 0 10px;
       font-weight: bold;
     }
-
-    .user-profile__create-twoot {
-      padding-top: 20px;
-      display: flex;
-      flex-direction: column;
-
-      &.exceeded {
-        color: red;
-        border-color: red;
-
-        button {
-          background-color: red;
-          border: none;
-          color: white;
-        }
-      }
-    }
   }
 
-  .user-profile__twoots-wrapper {
+  .user-profile-twoots-wrapper {
     display: grid;
     grid-gap: 10px;
   }
