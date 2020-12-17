@@ -1,9 +1,11 @@
 <template>
   <div id="app">
     <nav>
-      <div class="navigation-logo">
-        Twotter
-      </div>
+      <router-link to="/">
+        <div class="navigation-logo">
+          Twotter
+        </div>
+      </router-link>
       <div class="navigation-user">
         {{ user.username }}
       </div>
