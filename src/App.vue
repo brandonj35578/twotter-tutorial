@@ -31,7 +31,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  min-height: 98vh;
+  min-height: 100vh;
   background-color: #F3F5FA;
 
   nav {

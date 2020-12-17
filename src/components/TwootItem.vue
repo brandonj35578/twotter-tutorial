@@ -29,6 +29,7 @@ export default {
 
 <style lang="scss" scoped>
 .twoot-item {
+  height: fit-content;
   padding: 20px;
   background-color: white;
   border-radius: 5px;
