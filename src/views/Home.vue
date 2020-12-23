@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Home</h1>
+    <h1>{{ $store.getters.getLabel('home') }}</h1>
     <div class="users-list">
       <router-link v-for="user in users" :to="{name: 'UserProfile', params: {userId: user.id} }" :key="user.id">
         {{ user.username }}

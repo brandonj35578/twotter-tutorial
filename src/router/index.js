@@ -33,9 +33,19 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
     const user = store.state.User.user
+    const language = store.state.config.lang
+    const labels = store.state.labels
 
     if (!user) {
         await store.dispatch('User/setUser', users[0]);
+    }
+
+    if (!language) {
+        await store.dispatch('setLang', 'de');
+    }
+
+    if (!Object.keys(labels).length) {
+        await store.dispatch('setLabels');
     }
 
     const isAdmin = true;

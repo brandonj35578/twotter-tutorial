@@ -3,9 +3,15 @@
     <nav>
       <router-link to="/">
         <div class="navigation-logo">
-          Twotter
+          {{ appName }}
         </div>
       </router-link>
+      <label for="langSelect"><strong>{{ $store.getters.getLabel('language') }}: </strong></label>
+      <select id="langSelect" v-model="state.config.lang" @change="changeLang">
+        <option :value="option.value" v-for="(option, index) in state.globals.availableLangs" :key="index">
+          {{ option.name }}
+        </option>
+      </select>
       <div class="navigation-user" v-if="user">
         {{ user.username }}
       </div>
@@ -15,17 +21,27 @@
 </template>
 
 <script>
-import {useStore} from "vuex";
+import {useStore, mapGetters} from "vuex";
 import {computed} from "vue";
 
 export default {
   name: 'App',
-
+  computed: {
+    ...mapGetters({appName: 'getAppName'})
+  },
   setup() {
     const store = useStore();
     const user = computed(() => store.state.User.user)
+    const state = store.state
+
+    async function changeLang(e) {
+      await store.dispatch('setLang', e.target.value);
+      await store.dispatch('setLabels');
+    }
 
     return {
+      changeLang,
+      state,
       user
     };
   }
